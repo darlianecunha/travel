@@ -1,8 +1,22 @@
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# Arquivos do ambiente virtual
+venv/
 .env
-.venv
-*.sqlite3
 
+# Arquivos do sistema
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Arquivos do Streamlit
+.streamlit/
+
+# Arquivos de logs e cache
+*.log
+*.cache
+
+# Arquivos do Jupyter Notebook (caso sejam usados no projeto)
+.ipynb_checkpoints/
+
+# Arquivos de configuração do editor
+.vscode/
+.idea/
