@@ -1,42 +1,4 @@
 import streamlit as st
-import requests
-
-# Função para obter a previsão do tempo
-def get_weather(city, month):
-    # Substitua pela sua chave de API do OpenWeatherMap
-    api_key = 'SUA_API_KEY'
-    url = f"http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric"
-    
-    response = requests.get(url)
-    data = response.json()
-    
-    # Extrair dados de temperatura
-    temp_min = min([item['main']['temp_min'] for item in data['list']])
-    temp_max = max([item['main']['temp_max'] for item in data['list']])
-    temp_avg = sum([item['main']['temp'] for item in data['list']]) / len(data['list'])
-    
-    return temp_max, temp_avg, temp_min
-
-# Função para obter informações do aeroporto
-def get_airport_info(city):
-    # Substitua pela sua chave de API do AeroDataBox
-    api_key = 'SUA_API_KEY'
-    url = f"https://api.aerodatabox.com/v1/airports/search/term?q={city}"
-    headers = {'x-apikey': api_key}
-    
-    response = requests.get(url, headers=headers)
-    data = response.json()
-    
-    # Extrair nome do aeroporto e verificação de sala VIP
-    airports = []
-    for airport in data['items']:
-        airport_info = {
-            "name": airport['name'],
-            "vip_lounge": 'Sim' if 'vipLounge' in airport and airport['vipLounge'] else 'Não'
-        }
-        airports.append(airport_info)
-        
-    return airports
 
 # Função para obter endereço da embaixada do Brasil
 def get_embassy_address(city, country):
@@ -72,18 +34,6 @@ month = st.selectbox("Selecione o mês da viagem",
                       "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"])
 
 if city:
-    # Obter dados de clima
-    temp_max, temp_avg, temp_min = get_weather(city, month)
-    st.write(f"Temperatura máxima: {temp_max}°C")
-    st.write(f"Temperatura média: {temp_avg}°C")
-    st.write(f"Temperatura mínima: {temp_min}°C")
-
-    # Obter dados de aeroporto
-    airports = get_airport_info(city)
-    st.write("Aeroportos e Salas VIP:")
-    for airport in airports:
-        st.write(f"Aeroporto: {airport['name']}, Sala VIP: {airport['vip_lounge']}")
-
     # Endereço da embaixada
     embassy_address = get_embassy_address(city, "country")
     st.write(f"Endereço da Embaixada do Brasil: {embassy_address}")
